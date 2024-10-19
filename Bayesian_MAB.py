@@ -1,6 +1,6 @@
 from __future__ import division
 import numpy as np
-import bayesian_changepoint_detection.offline_changepoint_detection as offcd
+# import bayesian_changepoint_detection.offline_changepoint_detection as offcd
 from functools import partial
 import matplotlib.pyplot as plt
 
@@ -12,8 +12,8 @@ df2 = pd.read_csv('./data/propagate2itens.csv')
 df3 = pd.read_csv('./data/alternate2itens.csv')
 df4 = pd.read_csv('./data/sharding2itens.csv')
 
-df36_1 = pd.read_csv('./data/local36itens.csv')
 df36_2 = pd.read_csv('./data/propagate36itens.csv')
+df36_1 = pd.read_csv('./data/local36itens.csv')
 df36_3 = pd.read_csv('./data/alternate36itens.csv')
 df36_4 = pd.read_csv('./data/sharding36itens.csv')
 
@@ -29,29 +29,29 @@ combined_df.to_csv('combined_file.csv', index=False)
 combined_36df.to_csv('combined_36file.csv', index=False)
 
 
-# Filter rows where 'Series' is 'Current Action Time'
-filtered_df = combined_df[combined_df['Series'] == 'Current Action Time']
+# # Filter rows where 'Series' is 'Current Action Time'
+# filtered_df = combined_df[combined_df['Series'] == 'Current Action Time']
 
-# Extract the 'Average Time (ms)' as the signal for changepoint detection
-signal_data = filtered_df['Average Time (ms)'].values
+# # Extract the 'Average Time (ms)' as the signal for changepoint detection
+# signal_data = filtered_df['Average Time (ms)'].values
 
-# Apply Bayesian changepoint detection
-Q, P, Pcp = offcd.offline_changepoint_detection(
-    signal_data,
-    partial(offcd.const_prior, l=(len(signal_data) + 1)),
-    offcd.gaussian_obs_log_likelihood,
-    truncate=-40  # Truncate to improve computational efficiency
-)
+# # Apply Bayesian changepoint detection
+# Q, P, Pcp = offcd.offline_changepoint_detection(
+#     signal_data,
+#     partial(offcd.const_prior, l=(len(signal_data) + 1)),
+#     offcd.gaussian_obs_log_likelihood,
+#     truncate=-40  # Truncate to improve computational efficiency
+# )
 
-# Extract the changepoints based on a threshold
-changepoints = np.where(Pcp > 0.5)[0]  # You can adjust the threshold
+# # Extract the changepoints based on a threshold
+# changepoints = np.where(Pcp > 0.5)[0]  # You can adjust the threshold
 
-# Display the changepoints
-print("Detected changepoints at indices:", changepoints)
+# # Display the changepoints
+# print("Detected changepoints at indices:", changepoints)
 
-# Plot the results
-plt.plot(signal_data, label='Current Action Average Time')
-for cp in changepoints:
-    plt.axvline(cp, color='r', linestyle='--', label=f'Changepoint {cp}')
-plt.legend()
-plt.show()
+# # Plot the results
+# plt.plot(signal_data, label='Current Action Average Time')
+# for cp in changepoints:
+#     plt.axvline(cp, color='r', linestyle='--', label=f'Changepoint {cp}')
+# plt.legend()
+# plt.show()
